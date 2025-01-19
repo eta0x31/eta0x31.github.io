@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cam Drawing</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header clearfix">
+            <div class="row">
+                <div class="col-9">
+
+                    <h3 style="position: absolute;top: 20px;">Cam Drawing</h3>
+                    <h5 style="position: absolute;top: 60px;" class="text-muted">Upper Rocker Roller Follower</h5>
+                </div>
+                <div class="col-3">
+                </div>
+                <br><br><br>
+            </div>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">Valve elevation profile</h5>
+            <div class="card-body">
+                <h5><u>Current elevation profile:</u></h5>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Profile name</th>
+                            <td id="profile-input-name">-</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Maximum elevation</th>
+                            <td id="profile-input-max-elevation">- mm</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Valve half open (defined) elevation</th>
+                            <td id="profile-input-half-open-elevation">- mm</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Valve half open (defined) degree</th>
+                            <td id="profile-input-half-open-degree">-°</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Profile resolution degree</th>
+                            <td id="profile-input-resolution-degree">-°</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Amount of defined points</th>
+                            <td id="profile-input-amount-of-points">-</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Amount of elevation points</th>
+                            <td id="profile-input-amount-of-elevation-points">-</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Amount of zero points</th>
+                            <td id="profile-input-amount-of-zero-points">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <h5><u>Upload new elevation profile:</u></h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="resolutionRadio" id="resolution1" value="360" checked>
+                    <label class="form-check-label" for="resolution1">1 degree resolution (max 360 points)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="resolutionRadio" id="resolution2" value="720">
+                    <label class="form-check-label" for="resolution2">0.5 degree resolution (max 720 points)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="resolutionRadio" id="resolution3" value="3600">
+                    <label class="form-check-label" for="resolution3">0.1 degree resolution (max 3600 points)</label>
+                </div>
+                <br>
+                <div class="drag-drop-area" id="dragDropArea">
+                    Drag your .txt file here or click to upload
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="card">
+            <h5 class="card-header">Rocker geometry</h5>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Rocker length valve</th>
+                            <td><input id="rocker-length-left-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Rocker length cam</th>
+                            <td><input id="rocker-length-right-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Follower radius</th>
+                            <td><input id="follow-radius-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Cam base radius</th>
+                            <td><input id="cam-base-radius-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Cam hypotenuse</th>
+                            <td><input id="cam-hypotenuse-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-primary ml-auto" onclick="applyGeometry()">Apply Geometry</button>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="card">
+            <h5 class="card-header">Simulation</h5>
+            <div class="card-body" style="margin: 0;padding: 0;">
+                <canvas style="width: 100%;height: 100%;" id="canvas"></canvas>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="card">
+            <h5 class="card-header">Export</h5>
+            <div class="card-body" style="margin: 0; padding: 0;">
+                <div style="width: 100%; height: 100%;margin-top: 20px;;margin-bottom: 20px; display: flex; justify-content: center; align-items: center;" id="camProfileSvg"></div>
+                <div class="list-group">
+                    <a href="" id="csvDownload" download="cam-profile.csv" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Download CSV</h5>
+                            <small class="text-muted">cam-profile.csv</small>
+                        </div>
+                        <p class="mb-1">
+                            Consists of x,y,z coordinates where the z coordinate is always 0.<br>
+                            Import this CSV with the Fusion 360 ImportSplineCSV script.
+                        </p>
+                    </a>
+                    <a href="" id="dxfDownload" download="cam-profile-lin.dxf" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Download Lin. DXF</h5>
+                            <small class="text-muted">cam-profile-lin.dxf</small>
+                        </div>
+                        <p class="mb-1">
+                            DXF file where all the calculated coordinates are connected with lines.
+                        </p>
+                    </a>
+                    <a href="" id="svgDownload" download="cam-profile-lin.svg" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Download Lin. SVG</h5>
+                            <small class="text-muted">cam-profile-lin.svg</small>
+                        </div>
+                        <p class="mb-1">
+                            SVG file where all the calculated coordinates are connected with lines.
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+        <footer class="footer">
+            <p>&copy; Peter von der Bey</p>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Calculating cam profile</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Please wait.</p>
+                    <div class="progress">
+                        <div id="progressBar" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div><br>
+                    <p id="progressText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="../css/index.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
+
+    <script type="text/javascript" src="../js/libs/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/libs/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bezier-js@2/bezier.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@0/dist/opentype.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/makerjs@0/target/js/browser.maker.js"></script>
+
+    <script type="text/javascript" src="../js/helpers/animation-controller.js"></script>
+    <script type="text/javascript" src="../js/helpers/calculate-cam-contact-position.js"></script>
+    <script type="text/javascript" src="../js/helpers/calculate-cam-rocker-triangle.js"></script>
+    <script type="text/javascript" src="../js/helpers/calculate-cam-rotation-point.js"></script>
+    <script type="text/javascript" src="../js/helpers/calculate-points.js"></script>
+    <script type="text/javascript" src="../js/helpers/calculate-valve-triangle.js"></script>
+    <script type="text/javascript" src="../js/helpers/calculates-distance.js"></script>
+    <script type="text/javascript" src="../js/helpers/draw-circle.js"></script>
+    <script type="text/javascript" src="../js/helpers/draw-line.js"></script>
+    <script type="text/javascript" src="../js/helpers/draw-point.js"></script>
+    <script type="text/javascript" src="../js/helpers/main-draw.js"></script>
+    <script type="text/javascript" src="../js/helpers/pan-and-zoom.js"></script>
+
+    <script type="text/javascript" src="../js/calculation/calculate-cam-profile.js"></script>
+
+    <script type="text/javascript" src="../js/input/input-storage.js"></script>
+    <script type="text/javascript" src="../js/input/input-geometry.js"></script>
+    <script type="text/javascript" src="../js/input/update-ui.js"></script>
+    <script type="text/javascript" src="../js/input/file-input.js"></script>
+    <script type="text/javascript" src="../js/input/parse-elevation-profile.js"></script>
+
+    <script type="text/javascript" src="../js/export/export.js"></script>
+    
+    <script src="../data/example-data.js"></script>
+
+    <script src="../js/index.js"></script>
+</body>
+
+</html>

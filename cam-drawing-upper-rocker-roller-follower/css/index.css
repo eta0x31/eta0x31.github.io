@@ -1,0 +1,47 @@
+
+body {
+    width: 100%;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+@media screen and (min-width: 40em) {
+    .header,
+    .footer {
+        padding-right: 0;
+        padding-left:  0;
+    }
+
+    .header {
+        margin-bottom: 2rem;
+    }
+}
+
+.header,
+.footer {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.header {
+    padding-bottom: 1rem;
+    border-bottom: .05rem solid #e5e5e5;
+}
+
+.footer {
+    padding-top: 1.5rem;
+    color: #777;
+    border-top: .05rem solid #e5e5e5;
+}
+
+.drag-drop-area {
+    border: 2px dashed #6c757d;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    color: #6c757d;
+    transition: background-color 0.3s ease;
+}
+.drag-drop-area.drag-over {
+    background-color: #e9ecef;
+}
