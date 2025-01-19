@@ -29,7 +29,7 @@ function parseElevationProfileFile(file) {
         const elevationProfileText        = event.target.result;
         const elevationProfileTextArray   = elevationProfileText.split('\n');
         const elevationProfileNumberArray = elevationProfileTextArray
-            .map   (elevationText => parseFloat(elevationText.replace(',', '.')))
+            .map   (elevationText => parseFloat(elevationText.replace(',', '.')) || 0)
             .filter(elevation     => elevation !== 0);
         
         // get the selected resolution
