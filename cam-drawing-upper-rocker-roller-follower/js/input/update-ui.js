@@ -13,9 +13,9 @@ function updateUi() {
     document.getElementById('profile-input-amount-of-zero-points'     ).innerHTML = inputDefinitions.amountOfZeroPoints;
 
     // update rocker geometry profile UI
-    document.getElementById('rocker-length-left-input' ).value = inputDefinitions.rockerLengthLeft;
-    document.getElementById('rocker-length-right-input').value = inputDefinitions.rockerLengthRight;
-    document.getElementById('follow-radius-input'      ).value = inputDefinitions.followRadius;
-    document.getElementById('cam-base-radius-input'    ).value = inputDefinitions.camBaseRadius;
-    document.getElementById('cam-hypotenuse-input'     ).value = inputDefinitions.camHypotenuse;
+    document.getElementById('rocker-length-left-input' ).value = Math.round((inputDefinitions.rockerLengthLeft  / inputDefinitions.simulationScaleBy) * 100) / 100;
+    document.getElementById('rocker-length-right-input').value = Math.round((inputDefinitions.rockerLengthRight / inputDefinitions.simulationScaleBy) * 100) / 100;
+    document.getElementById('follow-radius-input'      ).value = Math.round((inputDefinitions.followRadius      / inputDefinitions.simulationScaleBy) * 100) / 100;
+    document.getElementById('cam-base-radius-input'    ).value = Math.round((inputDefinitions.camBaseRadius     / inputDefinitions.simulationScaleBy) * 100) / 100;
+    document.getElementById('cam-hypotenuse-input'     ).value = Math.round((inputDefinitions.camHypotenuse     / inputDefinitions.simulationScaleBy) * 100) / 100;
 }

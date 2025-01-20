@@ -1,20 +1,23 @@
-const makerjs = require('makerjs');
+const makerjs    = require('makerjs');
+const dxfDrawing = require('Drawing');
 
 // init the output vars
-let camPointsCsv   = [];
-let camPointsDxf   = [];
-let camPointsSvg   = [];
-let camModelLinDxf = { paths : {} };
-let camModelLinSvg = { paths : {} };
+let camPointsCsv      = [];
+let camPointsArr      = [];
+let camPointsXy       = [];
+let camModelLinDxf    = { paths : {} };
+let camModelLinSvg    = { paths : {} };
+let camModelSplineDxf = null;
 
 function initExport() {
 
     // resets the output vars
-    camPointsCsv  = [];
-    camPointsDxf   = [];
-    camPointsSvg   = [];
-    camModelLinDxf = { paths : {} };
-    camModelLinSvg = { paths : {} };
+    camPointsCsv      = [];
+    camPointsArr      = [];
+    camPointsXy       = [];
+    camModelLinDxf    = { paths : {} };
+    camModelLinSvg    = { paths : {} };
+    camModelSplineDxf = null;
 
     // loop over every degree
     for(let i = 0;i < inputDefinitions.elevationList.length;i++){
@@ -35,65 +38,92 @@ function initExport() {
         }
 
         // add the new cam point to the csv profile
-        camPointsCsv.push(`${Math.round(newCamPoint.x * 100) / 10000},${Math.round(newCamPoint.y * 100) / 10000},0`);
+        camPointsCsv.push(`${newCamPoint.x / inputDefinitions.simulationScaleBy},${newCamPoint.y / inputDefinitions.simulationScaleBy},0`);
 
-        // add the new cam point to the cam points dxf
-        camPointsDxf.push(
+        // add the new cam point as an array to the new cam points camPointsArr
+        camPointsArr.push(
             [
-                Math.round(newCamPoint.x * 100) / 1000,
-                Math.round(newCamPoint.y * 100) / 1000,
+                newCamPoint.x / inputDefinitions.simulationScaleBy,
+                newCamPoint.y / inputDefinitions.simulationScaleBy,
             ]
         );
 
-        // add the new cam point to the cam points svg
-        camPointsSvg.push(
-            [
-                Math.round(newCamPoint.y * 100) / 100,
-                Math.round(newCamPoint.x * 100) / 100,
-            ]
-        );
+        // add the new cam point to the new cam points XY list
+        camPointsXy.push(newCamPoint);
     }
     
     // close the cam forms
     camPointsCsv.push(camPointsCsv[0]);
-    camPointsDxf.push(camPointsDxf[0]);
-    camPointsSvg.push(camPointsSvg[0]);
+    camPointsArr.push(camPointsArr[0]);
+    camPointsXy .push(camPointsXy [0]);
 
-    // create the linear interpolated cam profile for the dxf
-    for(let i = 1; i < camPointsDxf.length; i += 1){
+    // create the linear interpolated cam profile for the dxf and the svg
+    for(let i = 1; i < camPointsArr.length; i += 1){
 
         // start and end point of the line
-        const start = camPointsDxf[i - 1];
-        const end   = camPointsDxf[i    ];
+        const start = camPointsArr[i - 1];
+        const end   = camPointsArr[i    ];
 
         // draw line to connect the start and end point
         camModelLinDxf.paths[`path_${i}`] = new makerjs.paths.Line(start, end);
-    }
-
-    // create the linear interpolated cam profile for the svg
-    for(let i = 1; i < camPointsSvg.length; i += 1){
-
-        // start and end point of the line
-        const start = camPointsSvg[i - 1];
-        const end   = camPointsSvg[i    ];
-
-        // draw line to connect the start and end point
         camModelLinSvg.paths[`path_${i}`] = new makerjs.paths.Line(start, end);
     }
 
+    // create the cam model as a single spline
+    camModelSplineDxf = new dxfDrawing();
+    camModelSplineDxf.drawSpline( camPointsArr );
+
     // add the preview SVG cam profile drawing
     const camProfileSvgElement     = document.getElementById('camProfileSvg');
-    camProfileSvgElement.innerHTML = exportSvg();
+    camProfileSvgElement.innerHTML = exportLinSvg();
+
+    const svgElement = document.querySelector('#camProfileSvg svg');
+    const svgContent = svgElement.querySelector('g');
+
+    svgElement.removeAttribute('width');
+    svgElement.removeAttribute('height');
+
+    svgElement.style.width = '50%';
+    svgElement.style.height = 'auto';
+
+    svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+    const bbox       = svgContent.getBBox();
+    const newViewBox = `${bbox.x - 1} ${bbox.y - 1} ${bbox.width + 2} ${bbox.height + 2}`;
+    
+    svgElement.setAttribute('viewBox', newViewBox);
 
     // create the file blobs for the download
-    const csvBlob = new Blob([exportCsv()], {type: 'application/csv'});
-    const svgBlob = new Blob([exportSvg()], {type: 'application/svg'});
-    const dxfBlob = new Blob([exportDxf()], {type: 'application/dxf'});
+    const csvBlob       = new Blob([exportCsv()      ], {type: 'application/csv'});
+    const dxfSplineBlob = new Blob([exportSplineDxf()], {type: 'application/dxf'});
+    const svgLinBlob    = new Blob([exportLinSvg()   ], {type: 'application/svg'});
+    const dxfLinBlob    = new Blob([exportLinDxf()   ], {type: 'application/dxf'});
 
     // add the file blobs to the download buttons
-    document.getElementById('csvDownload').href = URL.createObjectURL(csvBlob);
-    document.getElementById('dxfDownload').href = URL.createObjectURL(dxfBlob);
-    document.getElementById('svgDownload').href = URL.createObjectURL(svgBlob);
+    document.getElementById('csvDownload'      ).href = URL.createObjectURL(csvBlob      );
+    document.getElementById('dxfSplineDownload').href = URL.createObjectURL(dxfSplineBlob);
+    document.getElementById('svgLinDownload'   ).href = URL.createObjectURL(svgLinBlob   );
+    document.getElementById('dxfLinDownload'   ).href = URL.createObjectURL(dxfLinBlob   );
+    
+
+
+
+    // const test = toCatmullRom( camPointsXy , 1);
+
+    // const camProfileSvgElement = document.getElementById('camProfileSvg');
+
+    // camProfileSvgElement.innerHTML = `<svg width="50%" xmlns="http://www.w3.org/2000/svg"><g><path d="${test}" id="dynamicPath"/></g></svg>`;
+    
+    // const pathElement = document.getElementById('dynamicPath');
+
+    // if(pathElement) {
+    //     const bbox = pathElement.getBBox();
+    //     const viewBox = `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`;
+    //     const svgElement = camProfileSvgElement.querySelector('svg');
+    //     svgElement.setAttribute('viewBox', viewBox);
+    //     svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    // }
+
 }
 
 // export the cam model as CSV
@@ -102,11 +132,16 @@ function exportCsv() {
 }
 
 // export the cam model as DXF
-function exportDxf() {
+function exportLinDxf() {
     return makerjs.exporter.toDXF(camModelLinDxf);
 }
 
 // export the cam model as DXF
-function exportSvg() {
+function exportLinSvg() {
     return makerjs.exporter.toSVG(camModelLinSvg);
+}
+
+// export the cam model as DXF
+function exportSplineDxf() {
+    return camModelSplineDxf.toDxfString();
 }

@@ -1,4 +1,5 @@
 
+// apply the new geometry to the simulation
 async function applyGeometry() {
 
     // read and parse the rocker geometry
@@ -9,13 +10,6 @@ async function applyGeometry() {
         camBaseRadius    : parseFloat( document.getElementById('cam-base-radius-input'    ).value.replace(',','.') ) || 0,
         camHypotenuse    : parseFloat( document.getElementById('cam-hypotenuse-input'     ).value.replace(',','.') ) || 0,
     }
-
-    // write the parsed values back to the UI
-    document.getElementById('rocker-length-left-input' ).value = rockerGeometry.rockerLengthLeft;
-    document.getElementById('rocker-length-right-input').value = rockerGeometry.rockerLengthRight;
-    document.getElementById('follow-radius-input'      ).value = rockerGeometry.followRadius;
-    document.getElementById('cam-base-radius-input'    ).value = rockerGeometry.camBaseRadius;
-    document.getElementById('cam-hypotenuse-input'     ).value = rockerGeometry.camHypotenuse;
 
     // before we update the inputDefinitions stop the animation
     stopAnimation();
@@ -37,7 +31,7 @@ async function applyGeometry() {
     initExport();
 
     // update the UI
-    // updateUi();
+    updateUi();
 
     // draw the simulation
     startAnimation();

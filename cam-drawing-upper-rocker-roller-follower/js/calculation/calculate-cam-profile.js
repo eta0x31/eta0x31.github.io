@@ -1,5 +1,5 @@
 // import the calculate cam profile worker
-const calculateCamProfileWorker = new Worker('../js/helpers/calculate-cam-profile-worker.js');
+const calculateCamProfileWorker = new Worker('../js/calculation/calculate-cam-profile-worker.js');
 
 // calculate the cam profile
 async function calculateCamProfile() {

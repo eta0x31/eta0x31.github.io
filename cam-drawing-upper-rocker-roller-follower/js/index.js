@@ -28,11 +28,11 @@ let inputDefinitions = {
     amountOfZeroPoints     : 0,
     
     // geometry profile values
-    rockerLengthLeft : 34.63,
-    rockerLengthRight: 34.41,
-    followRadius     : 25,
-    camBaseRadius    : 9.5,
-    camHypotenuse    : 37.28,
+    rockerLengthLeft : 0,
+    rockerLengthRight: 0,
+    followRadius     : 0,
+    camBaseRadius    : 0,
+    camHypotenuse    : 0,
 };
 
 // TODO: Add check for:
@@ -43,8 +43,8 @@ let inputDefinitions = {
 window.onload = function () {
     loadProgramState();
     initFileInput();
-    updateUi();
     setupCanvas();
+    updateUi();
 }
 
 // setup the canvas element

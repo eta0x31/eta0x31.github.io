@@ -35,6 +35,7 @@ body {
 }
 
 .drag-drop-area {
+    cursor: pointer;
     border: 2px dashed #6c757d;
     border-radius: 5px;
     padding: 20px;
@@ -42,6 +43,7 @@ body {
     color: #6c757d;
     transition: background-color 0.3s ease;
 }
+
 .drag-drop-area.drag-over {
     background-color: #e9ecef;
 }

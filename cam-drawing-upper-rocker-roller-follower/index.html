@@ -12,7 +12,6 @@
         <div class="header clearfix">
             <div class="row">
                 <div class="col-9">
-
                     <h3 style="position: absolute;top: 20px;">Cam Drawing</h3>
                     <h5 style="position: absolute;top: 60px;" class="text-muted">Upper Rocker Roller Follower</h5>
                 </div>
@@ -149,7 +148,16 @@
                             Import this CSV with the Fusion 360 ImportSplineCSV script.
                         </p>
                     </a>
-                    <a href="" id="dxfDownload" download="cam-profile-lin.dxf" class="list-group-item list-group-item-action">
+                    <a href="" id="dxfSplineDownload" download="cam-profile-spline.dxf" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Download Spline DXF</h5>
+                            <small class="text-muted">cam-profile-spline.dxf</small>
+                        </div>
+                        <p class="mb-1">
+                            DXF file with one spline starting and ending at 0° describing a closed and uniform cam profile.
+                        </p>
+                    </a>
+                    <a href="" id="dxfLinDownload" download="cam-profile-lin.dxf" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Download Lin. DXF</h5>
                             <small class="text-muted">cam-profile-lin.dxf</small>
@@ -158,7 +166,7 @@
                             DXF file where all the calculated coordinates are connected with lines.
                         </p>
                     </a>
-                    <a href="" id="svgDownload" download="cam-profile-lin.svg" class="list-group-item list-group-item-action">
+                    <a href="" id="svgLinDownload" download="cam-profile-lin.svg" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Download Lin. SVG</h5>
                             <small class="text-muted">cam-profile-lin.svg</small>
@@ -195,42 +203,50 @@
         </div>
     </div>
 
-    <link rel="stylesheet" type="text/css" href="../css/index.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" media="screen" />
+    <!-- import css -->
+    <link rel="stylesheet" type="text/css" href="./css/index.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" media="screen" />
 
-    <script type="text/javascript" src="../js/libs/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="../js/libs/bootstrap.bundle.min.js"></script>
+    <!-- import the libs -->
+    <script type="text/javascript" src="./js/libs/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./js/libs/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="./js/libs/bezier.js"></script>
+    <script type="text/javascript" src="./js/libs/opentype.js"></script>
+    <script type="text/javascript" src="./js/libs/browser.maker.js"></script>
+    <script type="text/javascript" src="./js/libs/catmull-rom.js"></script>
+    <script type="text/javascript" src="./js/libs/dxf_bundle.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bezier-js@2/bezier.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/opentype.js@0/dist/opentype.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/makerjs@0/target/js/browser.maker.js"></script>
+    <!-- calculate the cam profile -->
+    <script type="text/javascript" src="./js/calculation/calculate-cam-profile.js"></script>
+    <script type="text/javascript" src="./js/calculation/calculate-cam-contact-position.js"></script>
+    <script type="text/javascript" src="./js/calculation/calculate-cam-rocker-triangle.js"></script>
+    <script type="text/javascript" src="./js/calculation/calculate-cam-rotation-point.js"></script>
+    <script type="text/javascript" src="./js/calculation/calculate-points.js"></script>
+    <script type="text/javascript" src="./js/calculation/calculate-valve-triangle.js"></script>
+    <script type="text/javascript" src="./js/calculation/calculates-distance.js"></script>
 
-    <script type="text/javascript" src="../js/helpers/animation-controller.js"></script>
-    <script type="text/javascript" src="../js/helpers/calculate-cam-contact-position.js"></script>
-    <script type="text/javascript" src="../js/helpers/calculate-cam-rocker-triangle.js"></script>
-    <script type="text/javascript" src="../js/helpers/calculate-cam-rotation-point.js"></script>
-    <script type="text/javascript" src="../js/helpers/calculate-points.js"></script>
-    <script type="text/javascript" src="../js/helpers/calculate-valve-triangle.js"></script>
-    <script type="text/javascript" src="../js/helpers/calculates-distance.js"></script>
-    <script type="text/javascript" src="../js/helpers/draw-circle.js"></script>
-    <script type="text/javascript" src="../js/helpers/draw-line.js"></script>
-    <script type="text/javascript" src="../js/helpers/draw-point.js"></script>
-    <script type="text/javascript" src="../js/helpers/main-draw.js"></script>
-    <script type="text/javascript" src="../js/helpers/pan-and-zoom.js"></script>
+    <!-- render a interactive simulation with the calculated cam profile -->
+    <script type="text/javascript" src="./js/simulation/animation-controller.js"></script>
+    <script type="text/javascript" src="./js/simulation/draw-circle.js"></script>
+    <script type="text/javascript" src="./js/simulation/draw-line.js"></script>
+    <script type="text/javascript" src="./js/simulation/draw-point.js"></script>
+    <script type="text/javascript" src="./js/simulation/main-draw.js"></script>
+    <script type="text/javascript" src="./js/simulation/pan-and-zoom.js"></script>
 
-    <script type="text/javascript" src="../js/calculation/calculate-cam-profile.js"></script>
+    <!-- handel the elevation file input -->
+    <script type="text/javascript" src="./js/input/input-storage.js"></script>
+    <script type="text/javascript" src="./js/input/input-geometry.js"></script>
+    <script type="text/javascript" src="./js/input/update-ui.js"></script>
+    <script type="text/javascript" src="./js/input/file-input.js"></script>
+    <script type="text/javascript" src="./js/input/parse-elevation-profile.js"></script>
 
-    <script type="text/javascript" src="../js/input/input-storage.js"></script>
-    <script type="text/javascript" src="../js/input/input-geometry.js"></script>
-    <script type="text/javascript" src="../js/input/update-ui.js"></script>
-    <script type="text/javascript" src="../js/input/file-input.js"></script>
-    <script type="text/javascript" src="../js/input/parse-elevation-profile.js"></script>
-
-    <script type="text/javascript" src="../js/export/export.js"></script>
+    <!-- create the export files -->
+    <script type="text/javascript" src="./js/export/export.js"></script>
     
-    <script src="../data/example-data.js"></script>
+    <!-- load the example / demo data -->
+    <script src="./data/example-data.js"></script>
 
-    <script src="../js/index.js"></script>
+    <!-- load the main index -->
+    <script src="./js/index.js"></script>
 </body>
-
 </html>
