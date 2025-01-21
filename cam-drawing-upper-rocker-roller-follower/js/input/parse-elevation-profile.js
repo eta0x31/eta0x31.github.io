@@ -90,7 +90,7 @@ function parseElevationProfileFile(file) {
 
         // add the best candidate to the parsedData
         parsedData.valveHalfOpenLift   = bestHalfLiftCandidate.lift;
-        parsedData.valveHalfOpenDegree = bestHalfLiftCandidate.degree;
+        parsedData.valveHalfOpenDegree = bestHalfLiftCandidate.degree * parsedData.profileResolutionDegree;
 
         // save the elevation profile to local storage
         saveElevationProfile(parsedData);

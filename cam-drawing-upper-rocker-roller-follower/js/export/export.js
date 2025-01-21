@@ -19,6 +19,9 @@ function initExport() {
     camModelLinSvg    = { paths : {} };
     camModelSplineDxf = null;
 
+    // get the selected export cam rotation
+    const selectedRotation = parseInt( document.querySelector('input[name="rotationRadio"]:checked').value );
+
     // loop over every degree
     for(let i = 0;i < inputDefinitions.elevationList.length;i++){
 
@@ -31,10 +34,13 @@ function initExport() {
         // when the value was not calculated skip this degree
         if(newCamLift === undefined)continue;
 
+        // calculate the global cam arc compensation
+        const globalArcCompensation = (inputDefinitions.calculatedCamProfile[ 0 ].arcCompensation - 180) - selectedRotation;
+
         // calculate the new cam point
         const newCamPoint = {
-            x : newCamLift * Math.cos( (rotationDegree * Math.PI / 180) - (inputDefinitions.calculatedCamProfile[ rotationDegree ].arcCompensation * Math.PI / 180) ),
-            y : newCamLift * Math.sin( (rotationDegree * Math.PI / 180) - (inputDefinitions.calculatedCamProfile[ rotationDegree ].arcCompensation * Math.PI / 180) ),
+            x : newCamLift * Math.sin( (globalArcCompensation * Math.PI / 180) + (rotationDegree * Math.PI / 180) - (inputDefinitions.calculatedCamProfile[ rotationDegree ].arcCompensation * Math.PI / 180)),
+            y : newCamLift * Math.cos( (globalArcCompensation * Math.PI / 180) + (rotationDegree * Math.PI / 180) - (inputDefinitions.calculatedCamProfile[ rotationDegree ].arcCompensation * Math.PI / 180)),
         }
 
         // add the new cam point to the csv profile
@@ -77,20 +83,27 @@ function initExport() {
     const camProfileSvgElement     = document.getElementById('camProfileSvg');
     camProfileSvgElement.innerHTML = exportLinSvg();
 
+    // get the svg element and the svg content
     const svgElement = document.querySelector('#camProfileSvg svg');
     const svgContent = svgElement.querySelector('g');
 
+    // remove the width and height that was added by makerjs
     svgElement.removeAttribute('width');
     svgElement.removeAttribute('height');
 
-    svgElement.style.width = '50%';
-    svgElement.style.height = 'auto';
+    // set the width and height to a dynamic value
+    svgElement.style.width     = '100%';
+    svgElement.style.height    = 'auto';
+    svgElement.style.maxHeight = '500px';
 
+    // preserve the aspect ratio
     svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
-    const bbox       = svgContent.getBBox();
-    const newViewBox = `${bbox.x - 1} ${bbox.y - 1} ${bbox.width + 2} ${bbox.height + 2}`;
+    // calculate the new bounding box with more space
+    const boundingBox = svgContent.getBBox();
+    const newViewBox  = `${boundingBox.x - 1} ${boundingBox.y - 1} ${boundingBox.width + 2} ${boundingBox.height + 2}`;
     
+    // apply the new bounding box
     svgElement.setAttribute('viewBox', newViewBox);
 
     // create the file blobs for the download
@@ -123,7 +136,6 @@ function initExport() {
     //     svgElement.setAttribute('viewBox', viewBox);
     //     svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
     // }
-
 }
 
 // export the cam model as CSV

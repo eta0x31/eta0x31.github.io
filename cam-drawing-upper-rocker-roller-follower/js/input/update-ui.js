@@ -18,4 +18,8 @@ function updateUi() {
     document.getElementById('follow-radius-input'      ).value = Math.round((inputDefinitions.followRadius      / inputDefinitions.simulationScaleBy) * 100) / 100;
     document.getElementById('cam-base-radius-input'    ).value = Math.round((inputDefinitions.camBaseRadius     / inputDefinitions.simulationScaleBy) * 100) / 100;
     document.getElementById('cam-hypotenuse-input'     ).value = Math.round((inputDefinitions.camHypotenuse     / inputDefinitions.simulationScaleBy) * 100) / 100;
+
+    // update export rotation settings
+    document.getElementById('rotation5'     ).value     = inputDefinitions.valveHalfOpenDegree + 180;
+    document.getElementById('rotation5label').innerHTML = `valve half open at ${inputDefinitions.valveHalfOpenDegree}°`;
 }
