@@ -20,6 +20,8 @@ async function applyGeometry() {
     saveGeometryProfile(rockerGeometry);
 
     // apply the new values to the simulation
+    inputDefinitions.camRotationDegree       = 0;
+    inputDefinitions.valveLift               = 0;
     inputDefinitions.rockerLengthLeft        = rockerGeometry.rockerLengthLeft       * inputDefinitions.simulationScaleBy;
     inputDefinitions.rockerLengthRight       = rockerGeometry.rockerLengthRight      * inputDefinitions.simulationScaleBy;
     inputDefinitions.rockerLengthHypotenuse  = rockerGeometry.rockerLengthHypotenuse * inputDefinitions.simulationScaleBy;
