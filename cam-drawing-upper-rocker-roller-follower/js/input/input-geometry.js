@@ -4,11 +4,13 @@ async function applyGeometry() {
 
     // read and parse the rocker geometry
     const rockerGeometry = {
-        rockerLengthLeft : parseFloat( document.getElementById('rocker-length-left-input' ).value.replace(',','.') ) || 0,
-        rockerLengthRight: parseFloat( document.getElementById('rocker-length-right-input').value.replace(',','.') ) || 0,
-        followRadius     : parseFloat( document.getElementById('follow-radius-input'      ).value.replace(',','.') ) || 0,
-        camBaseRadius    : parseFloat( document.getElementById('cam-base-radius-input'    ).value.replace(',','.') ) || 0,
-        camHypotenuse    : parseFloat( document.getElementById('cam-hypotenuse-input'     ).value.replace(',','.') ) || 0,
+        rockerLengthLeft       : parseFloat( document.getElementById('rocker-length-left-input'      ).value.replace(',','.') ) || 0,
+        rockerLengthRight      : parseFloat( document.getElementById('rocker-length-right-input'     ).value.replace(',','.') ) || 0,
+        rockerLengthHypotenuse : parseFloat( document.getElementById('rocker-length-hypotenuse-input').value.replace(',','.') ) || 0,
+        rockerHypotenuseEnabled:             document.getElementById('rocker-hypotenuse-checkbox'    ).checked,
+        followRadius           : parseFloat( document.getElementById('follow-radius-input'           ).value.replace(',','.') ) || 0,
+        camBaseRadius          : parseFloat( document.getElementById('cam-base-radius-input'         ).value.replace(',','.') ) || 0,
+        camHypotenuse          : parseFloat( document.getElementById('cam-hypotenuse-input'          ).value.replace(',','.') ) || 0,
     }
 
     // before we update the inputDefinitions stop the animation
@@ -18,11 +20,13 @@ async function applyGeometry() {
     saveGeometryProfile(rockerGeometry);
 
     // apply the new values to the simulation
-    inputDefinitions.rockerLengthLeft  = rockerGeometry.rockerLengthLeft  * inputDefinitions.simulationScaleBy;
-    inputDefinitions.rockerLengthRight = rockerGeometry.rockerLengthRight * inputDefinitions.simulationScaleBy;
-    inputDefinitions.followRadius      = rockerGeometry.followRadius      * inputDefinitions.simulationScaleBy;
-    inputDefinitions.camBaseRadius     = rockerGeometry.camBaseRadius     * inputDefinitions.simulationScaleBy;
-    inputDefinitions.camHypotenuse     = rockerGeometry.camHypotenuse     * inputDefinitions.simulationScaleBy;
+    inputDefinitions.rockerLengthLeft        = rockerGeometry.rockerLengthLeft       * inputDefinitions.simulationScaleBy;
+    inputDefinitions.rockerLengthRight       = rockerGeometry.rockerLengthRight      * inputDefinitions.simulationScaleBy;
+    inputDefinitions.rockerLengthHypotenuse  = rockerGeometry.rockerLengthHypotenuse * inputDefinitions.simulationScaleBy;
+    inputDefinitions.rockerHypotenuseEnabled = rockerGeometry.rockerHypotenuseEnabled;
+    inputDefinitions.followRadius            = rockerGeometry.followRadius  * inputDefinitions.simulationScaleBy;
+    inputDefinitions.camBaseRadius           = rockerGeometry.camBaseRadius * inputDefinitions.simulationScaleBy;
+    inputDefinitions.camHypotenuse           = rockerGeometry.camHypotenuse * inputDefinitions.simulationScaleBy;
 
     // calculate the cam profile
     await calculateCamProfile();

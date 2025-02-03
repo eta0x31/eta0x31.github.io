@@ -90,16 +90,6 @@
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <th scope="row">Rocker length valve</th>
-                            <td><input id="rocker-length-left-input" type="text" class="form-control"></td>
-                            <td><b>mm</b></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Rocker length cam</th>
-                            <td><input id="rocker-length-right-input" type="text" class="form-control"></td>
-                            <td><b>mm</b></td>
-                        </tr>
-                        <tr>
                             <th scope="row">Follower radius</th>
                             <td><input id="follow-radius-input" type="text" class="form-control"></td>
                             <td><b>mm</b></td>
@@ -114,8 +104,35 @@
                             <td><input id="cam-hypotenuse-input" type="text" class="form-control"></td>
                             <td><b>mm</b></td>
                         </tr>
+                        <tr>
+                            <th scope="row">Rocker length valve</th>
+                            <td><input id="rocker-length-left-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Rocker length cam</th>
+                            <td><input id="rocker-length-right-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="form-check">
+                                    <input class="form-check-input" onchange="document.getElementById('rocker-length-hypotenuse-input').disabled = !(document.getElementById('rocker-hypotenuse-checkbox').checked)" type="checkbox" name="rocker-hypotenuse-checkbox" id="rocker-hypotenuse-checkbox" value="0">
+                                    <label class="form-check-label" for="rocker-hypotenuse-checkbox">Rocker length Hypotenuse *</label>
+                                </div>
+                            </th>
+                            <td><input id="rocker-length-hypotenuse-input" type="text" class="form-control"></td>
+                            <td><b>mm</b></td>
+                        </tr>
                     </tbody>
                 </table>
+                <div class="alert alert-primary" role="alert">
+                    <u><b>* Warning Pointless</b><br></u>
+                    This setting is not influencing the form / profile of the output cam.<br>
+                    Enable it to get a better visual understanding of the geometry,<br>
+                    it will make the angels and proportions more realistic <br>
+                    use this for error and plausibility checking or leave it disabled!<br>
+                </div>
                 <div class="d-flex">
                     <button type="button" class="btn btn-outline-primary ml-auto" onclick="applyGeometry()">Apply Geometry</button>
                 </div>
@@ -216,7 +233,7 @@
                             <small class="text-muted">cam-profile-spline.dxf</small>
                         </div>
                         <p class="mb-1">
-                            DXF file with one spline starting and ending at 0° describing a closed and uniform cam profile.
+                            DXF file with one spline starting and ending at 0°, describing a closed and uniform cam profile.
                         </p>
                     </a>
                     <a href="" id="dxfLinDownload" download="cam-profile-lin.dxf" class="list-group-item list-group-item-action">

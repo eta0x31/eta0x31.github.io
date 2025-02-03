@@ -102,7 +102,7 @@ function parseElevationProfileFile(file) {
         inputDefinitions.name                    = parsedData.profileName;
         inputDefinitions.elevationList           = parsedData.elevationList;
         inputDefinitions.valveMaxLift            = parsedData.maxLift;
-        inputDefinitions.valveHalfOpenLift       = parsedData.valveHalfOpenLift;
+        inputDefinitions.valveHalfOpenLift       = parsedData.valveHalfOpenLift * inputDefinitions.simulationScaleBy;
         inputDefinitions.valveHalfOpenDegree     = parsedData.valveHalfOpenDegree;
         inputDefinitions.resolutionDegree        = parsedData.profileResolutionDegree;
         inputDefinitions.amountOfDefinedPoints   = parsedData.amountOfDefinedPoints;

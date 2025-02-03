@@ -4,21 +4,25 @@ function calculateCamRotationPoint(inputDefinitions) {
 
     // calculate the valve triangle
     const valveRockerTriangle = calculateValveRockerTriangle(
-        inputDefinitions.valveHalfOpenLift * (-1),
+        inputDefinitions.valveLift - inputDefinitions.valveHalfOpenLift,
         inputDefinitions.rockerLengthLeft
     );
 
-    // calculate the cam rocker triangle
-    const camRockerTriangle = calculateCamRockerTriangle(
-        valveRockerTriangle.angleA.degrees,
-        inputDefinitions.rockerLengthRight
-    );
-
-    // end position of the cam rocker
-    const camRocker = {
-        x : inputDefinitions.centerPoint.x + camRockerTriangle.sideC,
-        y : inputDefinitions.centerPoint.y - camRockerTriangle.sideA
+    // end position of the valve rocker
+    const valveRocker = {
+        x : inputDefinitions.centerPoint.x - valveRockerTriangle.sideC,
+        y : inputDefinitions.centerPoint.y + (inputDefinitions.valveLift - inputDefinitions.valveHalfOpenLift)
     }
+
+    // calculate the com rocker position via the cam rocker triangle
+    const camRocker = calculateCamRockerTriangle(
+        valveRocker.x,
+        valveRocker.y,
+        inputDefinitions.centerPoint.x,
+        inputDefinitions.centerPoint.y,
+        inputDefinitions.rockerLengthRight,
+        inputDefinitions.rockerLengthHypotenuse,
+    );
 
     // calculate the missing point B from the triangle
     const trianglePointC = calculateTrianglePointC(

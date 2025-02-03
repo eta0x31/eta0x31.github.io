@@ -183,6 +183,16 @@ function draw() {
         'black'
     );
 
+    // when the rocker hypotenuse is enabled show it
+    if(inputDefinitions.rockerHypotenuseEnabled === true){
+        drawLine(
+            ctx,
+            calculatedPoints.valveRocker,
+            calculatedPoints.camRocker,
+            'black'
+        );
+    }
+
     // draw line for the cam hypotenuse
     drawLine(
         ctx,

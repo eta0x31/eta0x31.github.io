@@ -26,17 +26,15 @@ function calculatePoints(inputDefinitions) {
         y : inputDefinitions.centerPoint.y + (inputDefinitions.valveLift - inputDefinitions.valveHalfOpenLift)
     }
 
-    // calculate the cam rocker triangle
-    const camRockerTriangle = calculateCamRockerTriangle(
-        valveRockerTriangle.angleA.degrees,
-        inputDefinitions.rockerLengthRight
+    // calculate the com rocker position via the cam rocker triangle
+    const camRocker = calculateCamRockerTriangle(
+        valveRocker.x,
+        valveRocker.y,
+        inputDefinitions.centerPoint.x,
+        inputDefinitions.centerPoint.y,
+        inputDefinitions.rockerLengthRight,
+        inputDefinitions.rockerLengthHypotenuse,
     );
-
-    // end position of the cam rocker
-    const camRocker = {
-        x : inputDefinitions.centerPoint.x + camRockerTriangle.sideC,
-        y : inputDefinitions.centerPoint.y - camRockerTriangle.sideA
-    }
 
     // calculate the contact point from the follower and the cam
     const camFollowContact = calculateCamContactPosition(

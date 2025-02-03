@@ -1,38 +1,33 @@
 
 // calculates the cam rocker triangle
-function calculateCamRockerTriangle(angleA, sideB) {
-    
-    // calculate angleA
-    const angleADegrees = angleA;
-    const angleARadians = (angleA * Math.PI) / 180;
+function calculateCamRockerTriangle(xA, yA, xB, yB, a, b) {
 
-    // use always 90 degree for angleB
-    const angleBDegrees = 90;
-    const angleBRadians = Math.PI / 2;
+    // calculate the missing length an angel
+    const c       = calculateDistance(xA, yA, xB, yB);
+    const angleAB = Math.atan2(yB - yA, xB - xA);
 
-    // calculate angleC
-    const angleCDegrees = 180 - angleADegrees - angleBDegrees;
-    const angleCRadians = (angleCDegrees * Math.PI) / 180;
+    // flag for invalid input
+    let forceDisabled = false;
 
-    // calculate sideA and sideC
-    const sideA = (sideB * Math.sin(angleARadians)) / Math.sin(angleBRadians);
-    const sideC = (sideB * Math.sin(angleCRadians)) / Math.sin(angleBRadians);
+    // check if the input is valid
+    if (c > a + b || c < Math.abs(a - b)) {
+        forceDisabled = true;
+    }
 
-    return {
-        angleA: {
-            radians: angleARadians,
-            degrees: angleADegrees,
-        },
-        angleB: {
-            radians: angleBRadians,
-            degrees: angleBDegrees,
-        },
-        angleC: {
-            radians: angleCRadians,
-            degrees: angleCDegrees,
-        },
-        sideA: sideA,
-        sideB: sideB,
-        sideC: sideC,
-    };
+    // when the rocker hypotenuse is disabled or the input is not valid calculate a state line
+    if(inputDefinitions.rockerHypotenuseEnabled === false || forceDisabled === true){
+        return {
+            x: xB + a * Math.cos(angleAB),
+            y: yB + a * Math.sin(angleAB),
+        };
+    }
+
+    // when the rocker hypotenuse enabled calculate the triangle
+    if(inputDefinitions.rockerHypotenuseEnabled === true){
+        const angleB = Math.acos((a ** 2 + c ** 2 - b ** 2) / (2 * a * c));
+        return {
+            x: xB + a * Math.cos((180 * Math.PI / 180) + angleAB + angleB),
+            y: yB + a * Math.sin((180 * Math.PI / 180) + angleAB + angleB),
+        };
+    }
 }

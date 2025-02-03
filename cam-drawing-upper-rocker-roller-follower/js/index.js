@@ -28,11 +28,14 @@ let inputDefinitions = {
     amountOfZeroPoints     : 0,
     
     // geometry profile values
-    rockerLengthLeft : 0,
-    rockerLengthRight: 0,
-    followRadius     : 0,
-    camBaseRadius    : 0,
-    camHypotenuse    : 0,
+    rockerLengthLeft       : 0,
+    rockerLengthRight      : 0,
+    rockerLengthHypotenuse : 67,
+    rockerHypotenuseEnabled: true,
+
+    followRadius          : 0,
+    camBaseRadius         : 0,
+    camHypotenuse         : 0,
 };
 
 // TODO: Add check for:
@@ -75,13 +78,14 @@ async function setupCanvas() {
     canvas.addEventListener('mouseout' , endPan);
 
     // apply the simulation scale to all inputs
-    inputDefinitions.valveHalfOpenLift = inputDefinitions.valveHalfOpenLift * inputDefinitions.simulationScaleBy;
-    inputDefinitions.valveLift         = inputDefinitions.valveLift         * inputDefinitions.simulationScaleBy;
-    inputDefinitions.rockerLengthLeft  = inputDefinitions.rockerLengthLeft  * inputDefinitions.simulationScaleBy;
-    inputDefinitions.rockerLengthRight = inputDefinitions.rockerLengthRight * inputDefinitions.simulationScaleBy;
-    inputDefinitions.followRadius      = inputDefinitions.followRadius      * inputDefinitions.simulationScaleBy;
-    inputDefinitions.camBaseRadius     = inputDefinitions.camBaseRadius     * inputDefinitions.simulationScaleBy;
-    inputDefinitions.camHypotenuse     = inputDefinitions.camHypotenuse     * inputDefinitions.simulationScaleBy;
+    inputDefinitions.valveHalfOpenLift      = inputDefinitions.valveHalfOpenLift      * inputDefinitions.simulationScaleBy;
+    inputDefinitions.valveLift              = inputDefinitions.valveLift              * inputDefinitions.simulationScaleBy;
+    inputDefinitions.rockerLengthLeft       = inputDefinitions.rockerLengthLeft       * inputDefinitions.simulationScaleBy;
+    inputDefinitions.rockerLengthRight      = inputDefinitions.rockerLengthRight      * inputDefinitions.simulationScaleBy;
+    inputDefinitions.rockerLengthHypotenuse = inputDefinitions.rockerLengthHypotenuse * inputDefinitions.simulationScaleBy;
+    inputDefinitions.followRadius           = inputDefinitions.followRadius           * inputDefinitions.simulationScaleBy;
+    inputDefinitions.camBaseRadius          = inputDefinitions.camBaseRadius          * inputDefinitions.simulationScaleBy;
+    inputDefinitions.camHypotenuse          = inputDefinitions.camHypotenuse          * inputDefinitions.simulationScaleBy;
 
     // calculate the center start point
     inputDefinitions.centerPoint.x = (containerWidth  / 2);

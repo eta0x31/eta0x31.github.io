@@ -14,11 +14,13 @@ function loadProgramState(){
         inputDefinitions.amountOfElevationPoints = JSON.parse(localStorage.getItem('elevation-amount-of-elevation-points'));
         inputDefinitions.amountOfZeroPoints      = JSON.parse(localStorage.getItem('elevation-amount-of-zero-points'     ));
 
-        inputDefinitions.rockerLengthLeft  = JSON.parse(localStorage.getItem('rocker-length-left' ));
-        inputDefinitions.rockerLengthRight = JSON.parse(localStorage.getItem('rocker-length-right'));
-        inputDefinitions.followRadius      = JSON.parse(localStorage.getItem('follow-radius'      ));
-        inputDefinitions.camBaseRadius     = JSON.parse(localStorage.getItem('cam-base-radius'    ));
-        inputDefinitions.camHypotenuse     = JSON.parse(localStorage.getItem('cam-hypotenuse'     ));
+        inputDefinitions.rockerLengthLeft        = JSON.parse(localStorage.getItem('rocker-length-left'       ));
+        inputDefinitions.rockerLengthRight       = JSON.parse(localStorage.getItem('rocker-length-right'      ));
+        inputDefinitions.rockerLengthHypotenuse  = JSON.parse(localStorage.getItem('rocker-length-hypotenuse' ));
+        inputDefinitions.rockerHypotenuseEnabled = JSON.parse(localStorage.getItem('rocker-hypotenuse-enabled'));
+        inputDefinitions.followRadius            = JSON.parse(localStorage.getItem('follow-radius'            ));
+        inputDefinitions.camBaseRadius           = JSON.parse(localStorage.getItem('cam-base-radius'          ));
+        inputDefinitions.camHypotenuse           = JSON.parse(localStorage.getItem('cam-hypotenuse'           ));
 
         // when one inputDefinitionValue is not defined load the default
         for(const inputDefinitionValue of Object.values(inputDefinitions)){
@@ -50,11 +52,13 @@ function loadProgramStateFromSaveFile(saveFileObject){
     inputDefinitions.amountOfZeroPoints      = saveFileObject.amountOfZeroPoints;
 
     // geometry profile values to inputDefinitions
-    inputDefinitions.rockerLengthLeft  = saveFileObject.rockerLengthLeft;
-    inputDefinitions.rockerLengthRight = saveFileObject.rockerLengthRight;
-    inputDefinitions.followRadius      = saveFileObject.followRadius;
-    inputDefinitions.camBaseRadius     = saveFileObject.camBaseRadius;
-    inputDefinitions.camHypotenuse     = saveFileObject.camHypotenuse;
+    inputDefinitions.rockerLengthLeft        = saveFileObject.rockerLengthLeft;
+    inputDefinitions.rockerLengthRight       = saveFileObject.rockerLengthRight;
+    inputDefinitions.rockerLengthHypotenuse  = saveFileObject.rockerLengthHypotenuse;
+    inputDefinitions.rockerHypotenuseEnabled = saveFileObject.rockerHypotenuseEnabled;
+    inputDefinitions.followRadius            = saveFileObject.followRadius;
+    inputDefinitions.camBaseRadius           = saveFileObject.camBaseRadius;
+    inputDefinitions.camHypotenuse           = saveFileObject.camHypotenuse;
 
     // save the elevation profile to local storage
     localStorage.setItem('name'                                ,                saveFileObject.name                    );
@@ -68,11 +72,13 @@ function loadProgramStateFromSaveFile(saveFileObject){
     localStorage.setItem('elevation-amount-of-zero-points'     , JSON.stringify(saveFileObject.amountOfZeroPoints     ));
 
     // save the geometry profile to local storage
-    localStorage.setItem('rocker-length-left' , JSON.stringify(saveFileObject.rockerLengthLeft ));
-    localStorage.setItem('rocker-length-right', JSON.stringify(saveFileObject.rockerLengthRight));
-    localStorage.setItem('follow-radius'      , JSON.stringify(saveFileObject.followRadius     ));
-    localStorage.setItem('cam-base-radius'    , JSON.stringify(saveFileObject.camBaseRadius    ));
-    localStorage.setItem('cam-hypotenuse'     , JSON.stringify(saveFileObject.camHypotenuse    ));
+    localStorage.setItem('rocker-length-left'       , JSON.stringify(saveFileObject.rockerLengthLeft ));
+    localStorage.setItem('rocker-length-right'      , JSON.stringify(saveFileObject.rockerLengthRight));
+    localStorage.setItem('rocker-length-hypotenuse' , JSON.stringify(saveFileObject.rockerLengthHypotenuse ));
+    localStorage.setItem('rocker-hypotenuse-enabled', JSON.stringify(saveFileObject.rockerHypotenuseEnabled));
+    localStorage.setItem('follow-radius'            , JSON.stringify(saveFileObject.followRadius     ));
+    localStorage.setItem('cam-base-radius'          , JSON.stringify(saveFileObject.camBaseRadius    ));
+    localStorage.setItem('cam-hypotenuse'           , JSON.stringify(saveFileObject.camHypotenuse    ));
 }
 
 // save the elevation profile to local storage
@@ -90,9 +96,11 @@ function saveElevationProfile(elevationProfile) {
 
 // save the geometry profile to local storage
 function saveGeometryProfile(geometryProfile) {
-    localStorage.setItem('rocker-length-left' , JSON.stringify(geometryProfile.rockerLengthLeft ));
-    localStorage.setItem('rocker-length-right', JSON.stringify(geometryProfile.rockerLengthRight));
-    localStorage.setItem('follow-radius'      , JSON.stringify(geometryProfile.followRadius     ));
-    localStorage.setItem('cam-base-radius'    , JSON.stringify(geometryProfile.camBaseRadius    ));
-    localStorage.setItem('cam-hypotenuse'     , JSON.stringify(geometryProfile.camHypotenuse    ));
+    localStorage.setItem('rocker-length-left'       , JSON.stringify(geometryProfile.rockerLengthLeft       ));
+    localStorage.setItem('rocker-length-right'      , JSON.stringify(geometryProfile.rockerLengthRight      ));
+    localStorage.setItem('rocker-length-hypotenuse' , JSON.stringify(geometryProfile.rockerLengthHypotenuse ));
+    localStorage.setItem('rocker-hypotenuse-enabled', JSON.stringify(geometryProfile.rockerHypotenuseEnabled));
+    localStorage.setItem('follow-radius'            , JSON.stringify(geometryProfile.followRadius           ));
+    localStorage.setItem('cam-base-radius'          , JSON.stringify(geometryProfile.camBaseRadius          ));
+    localStorage.setItem('cam-hypotenuse'           , JSON.stringify(geometryProfile.camHypotenuse          ));
 }

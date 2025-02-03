@@ -12,10 +12,12 @@ const exampleData = [
         amountOfZeroPoints     : 141,
         
         // geometry profile values
-        rockerLengthLeft : 34.63,
-        rockerLengthRight: 34.41,
-        followRadius     : 25,
-        camBaseRadius    : 9.5,
-        camHypotenuse    : 37.28,
+        rockerLengthLeft       : 34.63,
+        rockerLengthRight      : 34.41,
+        followRadius           : 25,
+        camBaseRadius          : 9.5,
+        camHypotenuse          : 37.28,
+        rockerLengthHypotenuse : 66,
+        rockerHypotenuseEnabled: true,
     }
 ]
