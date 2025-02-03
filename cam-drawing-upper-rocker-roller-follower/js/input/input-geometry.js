@@ -20,7 +20,7 @@ async function applyGeometry() {
     saveGeometryProfile(rockerGeometry);
 
     // apply the new values to the simulation
-    inputDefinitions.camRotationDegree       = 0;
+    inputDefinitions.camRotationDegree       = animationDegree;
     inputDefinitions.valveLift               = 0;
     inputDefinitions.rockerLengthLeft        = rockerGeometry.rockerLengthLeft       * inputDefinitions.simulationScaleBy;
     inputDefinitions.rockerLengthRight       = rockerGeometry.rockerLengthRight      * inputDefinitions.simulationScaleBy;
@@ -40,5 +40,7 @@ async function applyGeometry() {
     updateUi();
 
     // draw the simulation
-    startAnimation();
+    //startAnimation();
+    draw();
+    onAnimationControl();
 }
