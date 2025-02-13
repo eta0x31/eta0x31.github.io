@@ -17,8 +17,16 @@ function draw() {
     // calculate the elevation index
     const elevationIndex = Math.round((inputDefinitions.camRotationDegree / inputDefinitions.resolutionDegree) * 10) / 10;
 
+    // copy the elevation list from the input to a working var
+    const workingElevationList = [...inputDefinitions.elevationList];
+    
+    // reverse the list when the mirroring is enabled
+    if(inputDefinitions.mirrorElevationList === true){
+        workingElevationList.reverse();
+    }
+
     // calculate the valve lift
-    inputDefinitions.valveLift = inputDefinitions.elevationList[ elevationIndex ] * inputDefinitions.simulationScaleBy;
+    inputDefinitions.valveLift = workingElevationList[ elevationIndex ] * inputDefinitions.simulationScaleBy;
 
     // calculate all points for this drawing
     const calculatedPoints = calculatePoints(inputDefinitions);
@@ -34,7 +42,7 @@ function draw() {
     };
 
     // loop over every degree
-    for(let i = 0;i < inputDefinitions.elevationList.length;i++){
+    for(let i = 0;i < workingElevationList.length;i++){
 
         // calculate the rotation degree
         const rotationDegree = Math.round(i * inputDefinitions.resolutionDegree * 10) / 10;

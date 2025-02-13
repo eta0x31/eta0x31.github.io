@@ -10,12 +10,20 @@ let inputDefinitions = {};
 
 self.onmessage = async (event) => {
 
-
+    // copy to global scope
     inputDefinitions = event.data.inputDefinitions;
+
+    // copy the elevation list from the input to a working var
+    const workingElevationList = [...inputDefinitions.elevationList];
+    
+    // reverse the list when the mirroring is enabled
+    if(inputDefinitions.mirrorElevationList === true){
+        workingElevationList.reverse();
+    }
 
     async function calculateCamProfile(inputDefinitions) {
 
-        let maxProcess     = inputDefinitions.elevationList.length;
+        let maxProcess     = workingElevationList.length;
         let currentProcess = 0;
 
         // store the cam profile
@@ -25,11 +33,11 @@ self.onmessage = async (event) => {
         calculateCamRotationPoint(inputDefinitions);
 
         // loop over every lift point
-        for(let i = 0;i < inputDefinitions.elevationList.length;i++){
+        for(let i = 0;i < workingElevationList.length;i++){
 
             // calculate the degree and the corresponding valve elevation
             const degree    = Math.round(i * inputDefinitions.resolutionDegree * 10) / 10;
-            const elevation = inputDefinitions.elevationList[i];
+            const elevation = workingElevationList[i];
 
             // copy by value to save the global inputDefinitions
             const privateInputDefinitions = {...inputDefinitions};
@@ -73,7 +81,7 @@ self.onmessage = async (event) => {
         }
 
         // loop over every calculated degree
-        for(let i = 0;i < inputDefinitions.elevationList.length;i++){
+        for(let i = 0;i < workingElevationList.length;i++){
 
             // calculate the degree and the corresponding valve elevation
             const indexDegree = Math.round(i * inputDefinitions.resolutionDegree * 10) / 10;
@@ -99,7 +107,7 @@ self.onmessage = async (event) => {
                 const privateInputDefinitions = {...inputDefinitions};
 
                 // update the private inputDefinitions
-                privateInputDefinitions.valveLift = inputDefinitions.elevationList[i] * inputDefinitions.simulationScaleBy;
+                privateInputDefinitions.valveLift = workingElevationList[i] * inputDefinitions.simulationScaleBy;
 
                 // calculate all points for the simulation
                 const calculatedPoints = calculatePoints(privateInputDefinitions);

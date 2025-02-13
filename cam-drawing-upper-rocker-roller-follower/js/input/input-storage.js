@@ -6,6 +6,7 @@ function loadProgramState(){
         // load the program state from local storage
         inputDefinitions.name                    =            localStorage.getItem('name');
         inputDefinitions.elevationList           = JSON.parse(localStorage.getItem('elevation-elevation-list'            ));
+        inputDefinitions.mirrorElevationList     = JSON.parse(localStorage.getItem('elevation-mirror-elevation-list'     ));
         inputDefinitions.valveMaxLift            = JSON.parse(localStorage.getItem('elevation-max-lift'                  ));
         inputDefinitions.valveHalfOpenLift       = JSON.parse(localStorage.getItem('elevation-valve-half-open-lift'      ));
         inputDefinitions.valveHalfOpenDegree     = JSON.parse(localStorage.getItem('elevation-valve-half-open-degree'    ));
@@ -43,6 +44,7 @@ function loadProgramStateFromSaveFile(saveFileObject){
     // elevation profile values to inputDefinitions
     inputDefinitions.name                    = saveFileObject.name;
     inputDefinitions.elevationList           = saveFileObject.elevationList;
+    inputDefinitions.mirrorElevationList     = saveFileObject.mirrorElevationList;
     inputDefinitions.valveMaxLift            = saveFileObject.valveMaxLift;
     inputDefinitions.valveHalfOpenLift       = saveFileObject.valveHalfOpenLift;
     inputDefinitions.valveHalfOpenDegree     = saveFileObject.valveHalfOpenDegree;
@@ -63,6 +65,7 @@ function loadProgramStateFromSaveFile(saveFileObject){
     // save the elevation profile to local storage
     localStorage.setItem('name'                                ,                saveFileObject.name                    );
     localStorage.setItem('elevation-elevation-list'            , JSON.stringify(saveFileObject.elevationList          ));
+    localStorage.setItem('elevation-mirror-elevation-list'     , JSON.stringify(saveFileObject.mirrorElevationList    ));
     localStorage.setItem('elevation-max-lift'                  , JSON.stringify(saveFileObject.valveMaxLift           ));
     localStorage.setItem('elevation-valve-half-open-lift'      , JSON.stringify(saveFileObject.valveHalfOpenLift      ));
     localStorage.setItem('elevation-valve-half-open-degree'    , JSON.stringify(saveFileObject.valveHalfOpenDegree    ));
@@ -96,11 +99,12 @@ function saveElevationProfile(elevationProfile) {
 
 // save the geometry profile to local storage
 function saveGeometryProfile(geometryProfile) {
-    localStorage.setItem('rocker-length-left'       , JSON.stringify(geometryProfile.rockerLengthLeft       ));
-    localStorage.setItem('rocker-length-right'      , JSON.stringify(geometryProfile.rockerLengthRight      ));
-    localStorage.setItem('rocker-length-hypotenuse' , JSON.stringify(geometryProfile.rockerLengthHypotenuse ));
-    localStorage.setItem('rocker-hypotenuse-enabled', JSON.stringify(geometryProfile.rockerHypotenuseEnabled));
-    localStorage.setItem('follow-radius'            , JSON.stringify(geometryProfile.followRadius           ));
-    localStorage.setItem('cam-base-radius'          , JSON.stringify(geometryProfile.camBaseRadius          ));
-    localStorage.setItem('cam-hypotenuse'           , JSON.stringify(geometryProfile.camHypotenuse          ));
+    localStorage.setItem('elevation-mirror-elevation-list', JSON.stringify(geometryProfile.mirrorElevationList    ));
+    localStorage.setItem('rocker-length-left'             , JSON.stringify(geometryProfile.rockerLengthLeft       ));
+    localStorage.setItem('rocker-length-right'            , JSON.stringify(geometryProfile.rockerLengthRight      ));
+    localStorage.setItem('rocker-length-hypotenuse'       , JSON.stringify(geometryProfile.rockerLengthHypotenuse ));
+    localStorage.setItem('rocker-hypotenuse-enabled'      , JSON.stringify(geometryProfile.rockerHypotenuseEnabled));
+    localStorage.setItem('follow-radius'                  , JSON.stringify(geometryProfile.followRadius           ));
+    localStorage.setItem('cam-base-radius'                , JSON.stringify(geometryProfile.camBaseRadius          ));
+    localStorage.setItem('cam-hypotenuse'                 , JSON.stringify(geometryProfile.camHypotenuse          ));
 }

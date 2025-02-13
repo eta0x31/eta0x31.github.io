@@ -19,6 +19,7 @@ let inputDefinitions = {
     // elevation profile values
     name                   : '',
     elevationList          : [],
+    mirrorElevationList    : false,
     valveMaxLift           : 0,
     valveHalfOpenLift      : 0,
     valveHalfOpenDegree    : 0,

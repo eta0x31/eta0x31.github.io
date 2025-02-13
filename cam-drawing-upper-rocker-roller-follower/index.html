@@ -59,8 +59,26 @@
                             <th scope="row">Amount of zero points</th>
                             <td id="profile-input-amount-of-zero-points">-</td>
                         </tr>
+                        <tr>
+                            <th scope="row">
+                                <div class="form-check">
+                                    <input class="form-check-input" onchange="applyGeometry()" type="checkbox" name="mirror-elevation-list-checkbox" id="mirror-elevation-list-checkbox">
+                                    <label class="form-check-label" for="mirror-elevation-list-checkbox">Mirror elevation profile *</label>
+                                </div>
+                            </th>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
+                <br>
+                <div class="alert alert-primary" role="alert">
+                    <u><b>* Mirror elevation profile</b><br></u>
+                    <p>
+                        When you use a asymmetric valve elevation profile (this are profiles where the highest elevation is NOT at 180°),<br>
+                        you can flip / mirror the direction in which the elevation profile is interpreted,<br>
+                        the default interpretation is from 0° to 360° or when plotted from left to right.
+                    </p>
+                </div>
                 <br>
                 <h5><u>Upload new elevation profile:</u></h5>
                 <div class="form-check">
@@ -117,7 +135,7 @@
                         <tr>
                             <th scope="row">
                                 <div class="form-check">
-                                    <input class="form-check-input" onchange="applyGeometry()" type="checkbox" name="rocker-hypotenuse-checkbox" id="rocker-hypotenuse-checkbox" value="0">
+                                    <input class="form-check-input" onchange="applyGeometry()" type="checkbox" name="rocker-hypotenuse-checkbox" id="rocker-hypotenuse-checkbox">
                                     <label class="form-check-label" for="rocker-hypotenuse-checkbox">Rocker length Hypotenuse *</label>
                                 </div>
                             </th>
@@ -127,7 +145,7 @@
                     </tbody>
                 </table>
                 <div class="alert alert-primary" role="alert">
-                    <u><b>* Warning Pointless</b><br></u>
+                    <u><b>* Rocker length Hypotenuse</b><br></u>
                     This setting is not influencing the form / profile of the output cam.<br>
                     Enable it to get a better visual understanding of the geometry,<br>
                     it will make the angels and proportions more realistic <br>

@@ -4,6 +4,7 @@ async function applyGeometry() {
 
     // read and parse the rocker geometry
     const rockerGeometry = {
+        mirrorElevationList    :             document.getElementById('mirror-elevation-list-checkbox').checked,
         rockerLengthLeft       : parseFloat( document.getElementById('rocker-length-left-input'      ).value.replace(',','.') ) || 0,
         rockerLengthRight      : parseFloat( document.getElementById('rocker-length-right-input'     ).value.replace(',','.') ) || 0,
         rockerLengthHypotenuse : parseFloat( document.getElementById('rocker-length-hypotenuse-input').value.replace(',','.') ) || 0,
@@ -22,6 +23,7 @@ async function applyGeometry() {
     // apply the new values to the simulation
     inputDefinitions.camRotationDegree       = animationDegree;
     inputDefinitions.valveLift               = 0;
+    inputDefinitions.mirrorElevationList     = rockerGeometry.mirrorElevationList;
     inputDefinitions.rockerLengthLeft        = rockerGeometry.rockerLengthLeft       * inputDefinitions.simulationScaleBy;
     inputDefinitions.rockerLengthRight       = rockerGeometry.rockerLengthRight      * inputDefinitions.simulationScaleBy;
     inputDefinitions.rockerLengthHypotenuse  = rockerGeometry.rockerLengthHypotenuse * inputDefinitions.simulationScaleBy;
@@ -40,7 +42,6 @@ async function applyGeometry() {
     updateUi();
 
     // draw the simulation
-    //startAnimation();
     draw();
     onAnimationControl();
 }

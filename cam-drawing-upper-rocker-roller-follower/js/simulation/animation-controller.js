@@ -21,6 +21,14 @@ function startAnimation() {
     // calculate the animation speed
     const speed = 100 * inputDefinitions.resolutionDegree;
 
+    // copy the elevation list from the input to a working var
+    const workingElevationList = [...inputDefinitions.elevationList];
+    
+    // reverse the list when the mirroring is enabled
+    if(inputDefinitions.mirrorElevationList === true){
+        workingElevationList.reverse();
+    }
+
     // set the animation interval
     animationInterval = setInterval(
         () => {
@@ -50,7 +58,7 @@ function startAnimation() {
             }
 
             // get the current valve elevation
-            const valveElevation = Math.round(inputDefinitions.elevationList[Math.round(animationDegree / inputDefinitions.resolutionDegree)] * 100) / 100;
+            const valveElevation = Math.round(workingElevationList[Math.round(animationDegree / inputDefinitions.resolutionDegree)] * 100) / 100;
 
             // update the simulation text
             document.getElementById('simulationDegreeText'        ).innerHTML = `Degree: ${animationDegree}°`;
@@ -70,7 +78,7 @@ function startAnimation() {
         simulationSlider.value             = animationDegree;
 
         // get the current valve elevation
-        const valveElevation = Math.round(inputDefinitions.elevationList[Math.round(animationDegree / inputDefinitions.resolutionDegree)] * 100) / 100;
+        const valveElevation = Math.round(workingElevationList[Math.round(animationDegree / inputDefinitions.resolutionDegree)] * 100) / 100;
 
         // update the simulation text
         document.getElementById('simulationDegreeText'        ).innerHTML = `Degree: ${animationDegree}°`;

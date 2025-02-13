@@ -29,7 +29,7 @@ function initFileInput() {
             if (file.type === 'text/plain') {
                 parseElevationProfileFile(file);
             } else {
-                alert('Only .txt files are allowed!');
+                alert('Only plain text (.txt) files are allowed!');
             }
         }
     });
@@ -49,7 +49,7 @@ function initFileInput() {
             if (file && file.type === 'text/plain') {
                 parseElevationProfileFile(file);
             } else {
-                alert('Only .txt files are allowed!');
+                alert('Only plain text (.txt) files are allowed!');
             }
         });
 
